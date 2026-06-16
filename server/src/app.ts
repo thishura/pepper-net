@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { env } from "./lib/env.js";
 import { notFoundHandler, errorHandler } from "./middleware/error-handler.js";
 import authRoutes from "./modules/auth/auth.routes.js";
+import orderRoutes from "./modules/orders/order.routes.js";
 
 /**
  * Assembles the PepperNet Express application. Kept separate from server.ts so
@@ -31,7 +32,8 @@ export const createApp = (): Express => {
   // Phase 2: authentication & RBAC.
   app.use("/auth", authRoutes);
 
-  // Phase 3+ routes (orders, inventory, etc.) mount here.
+  // Phase 3: orders + fractional inventory deduction.
+  app.use("/orders", orderRoutes);
 
   app.use(notFoundHandler);
   app.use(errorHandler);
